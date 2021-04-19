@@ -16,7 +16,7 @@ Checklist of features the library currently offers and plans to offer.
 - [ ] Time series validation
 - [ ] AutoTS
 
-> **Note**: Project is in it's early stages.
+> **Note**: Project is in its early stages.
 
 
 ## Contribution
