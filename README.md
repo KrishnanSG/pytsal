@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/pytsal.svg)](https://pypi.org/project/pytsal)
 
-Python Time Series Analysis Library
+An open source low-code time series analysis library in Python.
 
 ## Features
 
@@ -10,13 +10,21 @@ Checklist of features the library currently offers and plans to offer.
 
 
 - [ ] Time series data loaders
+  - [x] Basic
+  - [ ] Advanced
 - [ ] Time series preprocessing
+  - [x] Basic
+  - [ ] Advanced
 - [ ] Time series modelling
-- [ ] Time series visualization
-- [ ] Time series validation
+  - [ ] Forecasting
+    - [x] Holt Winter
+    - [ ] ARIMA
+    - [ ] Facebook Prophet
+  - [ ] Classification
+- [x] Time series visualization
+- [x] Time series validation
 - [ ] AutoTS
-
-> **Note**: Project is in its early stages.
+  - [x] Forecasting
 
 
 ## Contribution

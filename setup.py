@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='pytsal',
-    version='0.0.1',
+    version='1.0.0',
     packages=find_packages(exclude=['tests', 'tests.*', '.github']),
     install_requires=[],
     url='https://github.com/KrishnanSG/pytsal',
@@ -17,7 +17,7 @@ setup(
     keywords="time, series, analysis, tsa, visualization",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU v3 License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6'
