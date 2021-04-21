@@ -1,8 +1,11 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from pytsal.dataset import TimeSeries
+from pytsal.internal.entity import TimeSeries
+from pytsal.internal.utils.helpers import get_logger
 from pytsal.visualization.base_visualization import VisualizeContainer
+
+LOG = get_logger(__name__)
 
 
 class EDAVisualizer(VisualizeContainer):
@@ -122,4 +125,17 @@ class EDAVisualizer(VisualizeContainer):
         """
         Plots all the necessary EDA plots on a single function call
         """
-        pass
+        LOG.info(f'{self.__class__.__name__} initialized')
+        self.plot()
+        LOG.info('Constructed Time plot')
+        self.decompose()
+        LOG.info('Constructed decompose plot')
+        self.seasonal_plot()
+        LOG.info('Constructed seasonal plot')
+        self.box_plot()
+        LOG.info('Constructed box plot')
+        self.acf_and_pacf_plot()
+        LOG.info('Constructed acf and pacf plot')
+        self.test_stationarity()
+        LOG.info('Performed stationary test plot')
+        LOG.info(f'{self.__class__.__name__} completed')
