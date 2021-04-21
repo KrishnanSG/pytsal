@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Dict, Any
+from typing import Dict, Any, Callable
 
 
 class BaseContainer(ABC):
@@ -8,7 +8,10 @@ class BaseContainer(ABC):
         before being turned into a dataframe row.
     """
 
-    def __init__(self, id: str, name: str, class_def: str, args: Dict[str, Any] = None):
+    def __init__(self, id: str, name: str, class_def: Callable, args: Dict[str, Any] = None):
+        """
+            class_def: The callable to be invoked
+        """
         self.id = id
         self.name = name
         self.class_def = class_def

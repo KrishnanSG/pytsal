@@ -1,18 +1,8 @@
 import pandas as pd
 
+from pytsal.internal.entity import TimeSeries
 from pytsal.internal.utils.data_loader import csv_loader
 from pytsal.internal.utils.helpers import get_relative_path_from_root
-
-
-class TimeSeries:
-    def __init__(self, ts: pd.Series, name: str, target: str, freq=None):
-        self.data = ts
-        self.name = name
-        self.freq = freq
-        self.target = target
-
-    def __str__(self):
-        return str(self.data)
 
 
 def load_airline() -> TimeSeries:
@@ -34,7 +24,19 @@ def load_airline() -> TimeSeries:
     """
     filename = 'airline.csv'
     path = get_relative_path_from_root(filename)
-    name = 'Monthly totals of international airline passengers, 1949 to 1960'
+    name = 'Monthly totals of international airline passengers (1949 to 1960)'
+    target = 'Number of airline passengers'
+    data = csv_loader(path, index='Date', target=target)
+    return TimeSeries(data, name, target, freq=data.index.freqstr)
+
+
+def load_airline_with_anomaly() -> TimeSeries:
+    """
+        Load the airline univariate time series dataset with random anomaly points
+    """
+    filename = 'airline_with_anomaly.csv'
+    path = get_relative_path_from_root(filename)
+    name = 'Monthly totals of international airline passengers (1949 to 1960)'
     target = 'Number of airline passengers'
     data = csv_loader(path, index='Date', target=target)
     return TimeSeries(data, name, target, freq=data.index.freqstr)
