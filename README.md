@@ -8,23 +8,20 @@ An open source low-code time series analysis library in Python.
 
 Checklist of features the library currently offers and plans to offer.
 
+> Convention used below: Feature [status]
 
-- [ ] Time series data loaders
-  - [x] Basic
-  - [ ] Advanced
-- [ ] Time series preprocessing
-  - [x] Basic
-  - [ ] Advanced
-- [ ] Time series modelling
-  - [ ] Forecasting
-    - [x] Holt Winter
-    - [ ] ARIMA
-    - [ ] Facebook Prophet
-  - [ ] Classification
-- [x] Time series visualization
-- [x] Time series validation
-- [ ] AutoTS
-  - [x] Forecasting
+- Time series data loaders [partial]
+- Time series preprocessing [partial]
+- Time series modelling
+  - Forecasting
+    - Holt Winter [completed]
+    - ARIMA [in progress]
+    - Facebook Prophet [planned]
+  - Classification [planned]
+- Time series visualization [v1 completed]
+- Time series validation [v1 completed]
+- AutoTS
+  - Forecasting [v1 completed]
 
 
 ## Contribution

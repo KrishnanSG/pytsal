@@ -82,3 +82,4 @@ def brutlag_algorithm(ts: TimeSeries, model: HoltWintersResults, tolerance: int 
     plt.xlabel('Datetime')
     plt.ylabel(ts.target)
     plt.show()
+    return anomaly
