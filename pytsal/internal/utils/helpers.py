@@ -2,7 +2,7 @@ import logging
 import os
 from math import ceil
 
-from pytsal.internal.entity import TimeSeries, TrainTS, TestTS
+from pytsal.internal.entity import *
 
 logging.root.setLevel(logging.INFO)
 
@@ -38,5 +38,8 @@ def split_into_train_test(ts: TimeSeries, split_ratio=0.7):
     train_data = ts.data[:train_size]
     test_data = ts.data[train_size:]
     print(f'"{ts.name}" dataset split with train size: {train_size} test size: {size - train_size}')
-    return TrainTS(train_data, ts.name + 'TrainSet', ts.target, freq=ts.freq), TestTS(test_data, ts.name + 'TestSet',
-                                                                                      ts.target, freq=ts.freq)
+    splits = (
+        TrainTS(train_data, ts.name + ' TrainSet', ts.target, freq=ts.freq),
+        TestTS(test_data, ts.name + ' TestSet', ts.target, freq=ts.freq)
+    )
+    return splits

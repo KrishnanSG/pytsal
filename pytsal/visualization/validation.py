@@ -10,13 +10,17 @@ LOG = get_logger(__name__)
 
 
 def find_mae(expected, observed):
-    from sklearn.metrics import mean_absolute_error
-    return mean_absolute_error(expected, observed)
+    import numpy as np
+    output_errors = np.average(np.abs(observed - expected), axis=0)
+    return np.average(output_errors)
 
 
 def find_mape(expected, observed):
-    from sklearn.metrics import mean_absolute_percentage_error
-    return mean_absolute_percentage_error(expected, observed)
+    import numpy as np
+    epsilon = np.finfo(np.float64).eps
+    mape = np.abs(observed - expected) / np.maximum(np.abs(expected), epsilon)
+    output_errors = np.average(mape, axis=0)
+    return np.average(output_errors)
 
 
 class ValidationVisualizer(VisualizeContainer):
@@ -46,6 +50,7 @@ class ValidationVisualizer(VisualizeContainer):
         plt.show()
 
     def error_plot(self):
+        fig = plt.figure(figsize=(12, 8))
         plt.plot(self.test.data)
         predicted_values = self.model.predict(self.test.start, self.test.end)
         plt.plot(self.test.data.index, predicted_values)

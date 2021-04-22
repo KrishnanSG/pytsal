@@ -1,14 +1,15 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 from statsmodels.tsa.holtwinters import HoltWintersResults
 
-from pytsal.internal.entity import TimeSeries, TestTS
 from pytsal.internal.containers.models.base_model import ModelContainer
+from pytsal.internal.entity import TrainTS, TestTS, TimeSeries
 from pytsal.visualization.validation import find_mape, find_mae
 
 
 class Forecasting(ModelContainer, ABC):
+
     def __init__(self, id: str, name: str, model: Any, args: Dict[str, Any] = None):
         self.model_args = args
         super().__init__(id, name, model, args=args)
@@ -29,26 +30,20 @@ class Forecasting(ModelContainer, ABC):
     def score(self, *args, **kwargs):
         pass
 
+    @staticmethod
+    @abstractmethod
+    def get_tunable():
+        pass
+
 
 class HoltWinter(Forecasting):
-    TUNABLE = [
-        dict(trend=None, seasonal=None),
-        dict(trend='add', seasonal=None),
-        dict(trend=None, seasonal='add'),
-        dict(trend='mul', seasonal=None),
-        dict(trend=None, seasonal='mul'),
-        dict(trend='add', seasonal='add'),
-        dict(trend='add', seasonal='mul'),
-        dict(trend='mul', seasonal='add'),
-        dict(trend='mul', seasonal='mul'),
-    ]
 
     def __init__(self, model_args: Dict = None):
         from statsmodels.tsa.holtwinters import ExponentialSmoothing
-        super().__init__('hw', 'Holt Winter', ExponentialSmoothing, args=model_args)
+        super().__init__('holtwinter', 'Holt Winter', ExponentialSmoothing, args=model_args)
 
     @staticmethod
-    def __find_model_args(ts: TimeSeries):
+    def __find_model_args(ts: TrainTS):
         from statsmodels.tsa.seasonal import seasonal_decompose
         decompose_result = seasonal_decompose(ts.data)
         trend_values = decompose_result.trend.values
@@ -81,7 +76,7 @@ class HoltWinter(Forecasting):
         }
         return model_args
 
-    def fit(self, ts: TimeSeries, args: Dict = {}) -> HoltWintersResults:
+    def fit(self, ts: Union[TrainTS, TimeSeries], args: Dict = {}) -> HoltWintersResults:
         if self.model_args is None:
             self.model_args = self.__find_model_args(ts)
         return self.class_def(ts.data, trend=self.model_args['trend'], seasonal=self.model_args['seasonal']).fit(**args)
@@ -97,9 +92,57 @@ class HoltWinter(Forecasting):
         return {
             'MAE': find_mae(ts.data.values, predicted_values.values),
             "MAPE": find_mape(ts.data.values, predicted_values.values),
+            'AIC': model.aic,
+            'AICC': model.aicc,
+            'BIC': model.bic,
+            'SSE': model.sse
         }
+
+    @staticmethod
+    def get_tunable():
+        return [
+            dict(trend=None, seasonal=None),
+            dict(trend='add', seasonal=None),
+            dict(trend=None, seasonal='add'),
+            dict(trend='mul', seasonal=None),
+            dict(trend=None, seasonal='mul'),
+            dict(trend='add', seasonal='add'),
+            dict(trend='add', seasonal='mul'),
+            dict(trend='mul', seasonal='add'),
+            dict(trend='mul', seasonal='mul'),
+        ]
+
+
+class SARIMAX(Forecasting):
+    def fit(self, *args, **kwargs):
+        pass
+
+    def predict(self, *args, **kwargs):
+        pass
+
+    def forecast(self, *args, **kwargs):
+        pass
+
+    def score(self, ts: TestTS, model):
+        predicted_values = model.predict(ts.start, ts.end)
+        return {
+            'MAE': find_mae(ts.data.values, predicted_values.values),
+            "MAPE": find_mape(ts.data.values, predicted_values.values),
+            'AIC': model.aic,
+            'AICC': model.aicc,
+            'BIC': model.bic,
+            'SSE': model.sse
+        }
+
+    @staticmethod
+    def get_tunable():
+        pass
 
 
 MODELS = {
     'holtwinter': HoltWinter,
+
 }
+
+if __name__ == '__main__':
+    ARIMA().fit()
