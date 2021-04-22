@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='pytsal',
-    version='1.0.1',
+    version='1.0.2',
     packages=find_packages(exclude=['tests', 'tests.*', '.github']),
     install_requires=[],
     url='https://github.com/KrishnanSG/pytsal',
