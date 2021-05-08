@@ -1,3 +1,5 @@
+from typing import Optional, Dict, Any
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from statsmodels.tsa.holtwinters import HoltWintersResults
@@ -8,9 +10,28 @@ from pytsal.internal.utils.helpers import get_logger
 LOG = get_logger(__name__)
 
 
+def setup(
+        ts: TimeSeries,
+        model: Any,
+        algorithm_name: str,
+        algorithm_args: Optional[Dict] = {}
+):
+    algorithm = AD_ALGORITHMS.get(algorithm_name)
+    if algorithm is None:
+        LOG.error('Setup failed, invalid algorithm name')
+        LOG.info(f'Supported algorithms: {", ".join(AD_ALGORITHMS.keys())}')
+        return 'Setup failed, invalid algorithm name'
+
+    LOG.info('Initializing anomaly detection algorithm ...')
+    return algorithm(ts, model, **algorithm_args)
+
+
 def brutlag_algorithm(ts: TimeSeries, model: HoltWintersResults, tolerance: int = 0.5, period=12, sf=2,
                       gamma=0.3684211):
-    LOG.info('Performing anomaly detection ...')
+    LOG.warning('This function in future release will be refactored. '
+                'Hence use this with care expecting breaking changes in upcoming versions.')
+
+    LOG.info('Performing brutlag anomaly detection ...')
 
     # period - seasonal_period of the given time series
     # gamma - the seasonality component (0.2 -0.5)
@@ -64,6 +85,11 @@ def brutlag_algorithm(ts: TimeSeries, model: HoltWintersResults, tolerance: int 
     print("\nThe data points classified as anomaly\n")
     print(anomaly)
 
+    plot_anomaly(ts, anomaly, normal, lb, ub)
+    return anomaly
+
+
+def plot_anomaly(ts: TimeSeries, anomaly, normal, lb, ub):
     """
     Plotting the data points after classification as anomaly/normal.
     Data points classified as anomaly are represented in red and normal in green.
@@ -71,11 +97,9 @@ def brutlag_algorithm(ts: TimeSeries, model: HoltWintersResults, tolerance: int 
     plt.figure(figsize=(12, 8))
     plt.plot(normal.index, normal, 'o', color='green')
     plt.plot(anomaly.index, anomaly[['observed']], 'o', color='red')
-
     # Plotting brutlag confidence bands
     plt.plot(ts.data.index, ub, linestyle='--', color='grey')
     plt.plot(ts.data.index, lb, linestyle='--', color='grey')
-
     # Formatting the graph
     plt.legend(['Normal', 'Anomaly', 'Upper Bound', 'Lower Bound'])
     plt.gcf().autofmt_xdate()
@@ -83,4 +107,8 @@ def brutlag_algorithm(ts: TimeSeries, model: HoltWintersResults, tolerance: int 
     plt.xlabel('Datetime')
     plt.ylabel(ts.target)
     plt.show()
-    return anomaly
+
+
+AD_ALGORITHMS = {
+    'brutlag': brutlag_algorithm
+}
