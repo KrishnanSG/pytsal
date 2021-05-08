@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 import pandas as pd
 
@@ -15,12 +15,12 @@ LOG = get_logger(__name__)
 def setup(
         ts: TimeSeries,
         model_name: str,
-        override_model=None,
+        override_model: Optional[Forecasting] = None,
         eda: bool = True,
         validation: bool = True,
         find_best_model: bool = True,
         validation_metric_name: str = 'MAE',
-        plot_model_comparison=True
+        plot_model_comparison: bool = True
 ):
     import warnings
     warnings.filterwarnings("ignore")
@@ -69,7 +69,7 @@ def setup(
 def tune_model(train: TrainTS, test: TestTS, model_class: Any, metric_name: str = 'MAE', plot_comparison: bool = True):
     LOG.info('Initialize model tuning ...')
 
-    # Ignore erd party warning since most of them are deprecated warning and they add noise to the output
+    # Ignore 3rd party warning since most of them are deprecated warning and they add noise to the output
     import warnings
     warnings.filterwarnings("ignore")
 
@@ -131,9 +131,13 @@ def tune_model(train: TrainTS, test: TestTS, model_class: Any, metric_name: str 
     return best_model, best_fit_model
 
 
-def finalize(ts, model: Forecasting):
+def finalize(ts, model: Forecasting, save_model_to_disk: bool = False):
     LOG.info('Finalizing model (Training on complete data) ... ')
-    return model.fit(ts)
+    fit_model = model.fit(ts)
+    print(fit_model.summary())
+    if save_model_to_disk:
+        save_model(fit_model)
+    return fit_model
 
 
 def save_model(model, filename: str = 'trained_model.pytsal'):
@@ -141,11 +145,15 @@ def save_model(model, filename: str = 'trained_model.pytsal'):
     with open(filename, 'wb') as f:
         pickle.dump(model, f)
     LOG.info(f'Model saved to {filename}')
-    return 'model saved'
+    return 'Model saved'
 
 
 def load_model(filename: str = 'trained_model.pytsal'):
     import pickle
-    with open(filename, 'rb') as f:
-        LOG.info(f'Model loaded from {filename}')
-        return pickle.load(f)
+    try:
+        with open(filename, 'rb') as f:
+            LOG.info(f'Model loaded from {filename}')
+            return pickle.load(f)
+    except FileNotFoundError:
+        LOG.error('Model file not found')
+        return None

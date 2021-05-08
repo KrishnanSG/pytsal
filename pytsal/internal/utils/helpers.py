@@ -18,6 +18,11 @@ def get_relative_path_from_root(filename: str):
     return os.sep.join([__file__[:-17].replace('/', os.sep), 'datasets', filename])
 
 
+def get_dataset_url(dataset_name: str, file_format: str = 'csv'):
+    base_url = 'https://raw.githubusercontent.com/KrishnanSG/pytsal/master/pytsal/internal/datasets/'
+    return base_url + dataset_name + '.' + file_format
+
+
 def get_freq(seconds: int):
     minutes = seconds / 60
     hours = minutes / 60
