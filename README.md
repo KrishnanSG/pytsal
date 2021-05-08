@@ -49,6 +49,45 @@ Checklist of features the library currently offers and plans to offer.
 - AutoTS
   - Forecasting [v1 completed]
 
+
+## Getting Started
+
+
+The following instructions will get you a copy of the project and ready for use for your python projects.
+
+### Installation
+
+#### Quick Access
+  - Download from PyPi.org
+  
+    ```bash
+    pip install pytsal
+    ```
+  
+#### Developer Style
+  - Requires Python version >=3.6
+  - Clone this repository using the command:
+
+    ```bash
+    git clone https://github.com/KrishnanSG/Nutshell.git
+    cd Nutshell
+    ```
+  - Then install the library using the command:
+
+    ```bash
+    python setup.py install
+    ```
+
+### Examples & Tutorials
+
+The tutorial on how to the library can be found under the [examples folder](https://github.com/KrishnanSG/pytsal/tree/master/examples)
+
+The tutorials clearly explain how to use the library and also provide basic guide to understand time series analysis.
+
+- [Forecasting tutorial](https://github.com/KrishnanSG/pytsal/blob/master/examples/101_forecasting.ipynb)
+- [Anomaly detection tutorial](https://github.com/KrishnanSG/pytsal/blob/master/examples/101_anomaly_detection.ipynb)
+
+
 ## Stability
 
 The library isn't mature or stable for production use yet. 
