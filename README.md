@@ -8,17 +8,17 @@
 [![PyPI version](https://badge.fury.io/py/pytsal.svg)](https://pypi.org/project/pytsal)
 
 
-An easy to use low-code open-source python framework for Time Series analysis, visualization, forecasting along with AutoTS.
+An easy to use low-code open-source python framework for Time Series analysis, visualization and forecasting along with AutoTS.
 
 ## Why was pytsal created?
 
-I was deeply inspired by **[pycaret](https://github.com/pycaret/pycaret)** which is an amazing library for **Machine Learning** and I wanted to create a similar library for **Time Series Analysis**.
+I was deeply inspired by **[pycaret](https://github.com/pycaret/pycaret)** which is an amazing library for **Machine Learning**, and I wanted to create a similar library for **Time Series Analysis**.
 
-Therefore the interface and features provided are very similar to pycaret but focused and customized towards **Time Series**.
+Therefore, the interface and features provided are very similar to pycaret but focused and customized towards **Time Series**.
 
 ### What does pytsal mean?
 
-pystal is the abbreviation for **Py**thon **T**ime **S**eries **A**nalysis **L**ibrary
+Pytsal is the abbreviation for **Py**thon **T**ime **S**eries **A**nalysis **L**ibrary
 
 
 ## Overview
