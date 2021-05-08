@@ -41,6 +41,7 @@ class ValidationVisualizer(VisualizeContainer):
         plt.ylabel(self.ts_prop['target'])
 
     def plot(self):
+        fig = plt.figure(figsize=(12, 8))
         plt.plot(self.train.data)
         plt.plot(self.test.data)
         plt.plot(self.predicted)
