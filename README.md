@@ -8,11 +8,11 @@
 [![PyPI version](https://badge.fury.io/py/pytsal.svg)](https://pypi.org/project/pytsal)
 
 
-An easy to use open-source python framework for Time Series analysis, visualization, forecasting along with AutoTS.
+An easy to use low-code open-source python framework for Time Series analysis, visualization, forecasting along with AutoTS.
 
 ## Why was pytsal created?
 
-I was deeply inspired by **[pycaret](https://github.com/pycaret/pycaret)**  library which is an amazing library for **Machine Learning** and I wanted to create a similar library for **Time Series Analysis**.
+I was deeply inspired by **[pycaret](https://github.com/pycaret/pycaret)** which is an amazing library for **Machine Learning** and I wanted to create a similar library for **Time Series Analysis**.
 
 Therefore the interface and features provided are very similar to pycaret but focused and customized towards **Time Series**.
 
@@ -69,8 +69,8 @@ The following instructions will get you a copy of the project and ready for use 
   - Clone this repository using the command:
 
     ```bash
-    git clone https://github.com/KrishnanSG/Nutshell.git
-    cd Nutshell
+    git clone https://github.com/KrishnanSG/pytsal.git
+    cd pytsal
     ```
   - Then install the library using the command:
 
@@ -80,7 +80,7 @@ The following instructions will get you a copy of the project and ready for use 
 
 ### Examples & Tutorials
 
-The tutorial on how to the library can be found under the [examples folder](https://github.com/KrishnanSG/pytsal/tree/master/examples)
+Tutorials on how to use the library can be found under the [examples folder](https://github.com/KrishnanSG/pytsal/tree/master/examples)
 
 The tutorials clearly explain how to use the library and also provide basic guide to understand time series analysis.
 
