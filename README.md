@@ -92,7 +92,7 @@ The tutorials clearly explain how to use the library and also provide basic guid
 
 The library isn't mature or stable for production use yet. 
 
-The best of the library currently would be for **non production use and rapid prototyping**.
+The best use of the library currently would be for **non production use and rapid prototyping**.
 
 
 ## Current Contributors
@@ -104,10 +104,10 @@ The best of the library currently would be for **non production use and rapid pr
 
 ## Contribution
 
-Contributions are always welcomed, it would be great to have people use and contribute to this project to help users understand and benefit from the library.
+Contributions are always welcomed, it would be great to have people use and contribute to this project so as to help users understand and benefit from the library.
 
 ### How to contribute
-- **Create an issue:** If you have a new feature in mind, feel free to open an issue and add some short description on what that feature could be.
+- **Create an issue:** If you have a new feature in mind, feel free to open an issue and add a short description on what that feature could be.
 - **Create a PR**: If you have a bug fix, enhancement or new feature addition, create a Pull Request and the maintainers of the repo, would review and merge them.
 
 ### What can be contributed?
