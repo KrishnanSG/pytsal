@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Union
 
+from statsmodels.tsa.arima.model import ARIMAResults
 from statsmodels.tsa.holtwinters import HoltWintersResults
 
 from pytsal.internal.containers.models.base_model import ModelContainer
@@ -26,9 +27,17 @@ class Forecasting(ModelContainer, ABC):
     def forecast(self, *args, **kwargs):
         pass
 
-    @abstractmethod
-    def score(self, *args, **kwargs):
-        pass
+    @staticmethod
+    def score(ts: TestTS, model: Any):
+        predicted_values = model.predict(ts.start, ts.end)
+        return {
+            'MAE': find_mae(ts.data.values, predicted_values.values),
+            "MAPE": find_mape(ts.data.values, predicted_values.values),
+            'AIC': model.aic,
+            'AICC': model.aicc,
+            'BIC': model.bic,
+            'SSE': model.sse
+        }
 
     @staticmethod
     @abstractmethod
@@ -87,17 +96,6 @@ class HoltWinter(Forecasting):
     def predict(self, model: HoltWintersResults, start, end):
         return model.predict(start, end)
 
-    def score(self, ts: TestTS, model: HoltWintersResults):
-        predicted_values = model.predict(ts.start, ts.end)
-        return {
-            'MAE': find_mae(ts.data.values, predicted_values.values),
-            "MAPE": find_mape(ts.data.values, predicted_values.values),
-            'AIC': model.aic,
-            'AICC': model.aicc,
-            'BIC': model.bic,
-            'SSE': model.sse
-        }
-
     @staticmethod
     def get_tunable():
         return [
@@ -113,33 +111,30 @@ class HoltWinter(Forecasting):
         ]
 
 
-class SARIMAX(Forecasting):
-    def fit(self, *args, **kwargs):
-        pass
+class ARIMA(Forecasting):
 
-    def predict(self, *args, **kwargs):
-        pass
+    def __init__(self, model_args: Dict = None):
+        from statsmodels.tsa.arima.model import ARIMA
+        super().__init__('arima', 'ARIMA', ARIMA, args=model_args)
 
-    def forecast(self, *args, **kwargs):
-        pass
+    def fit(self, ts: Union[TrainTS, TimeSeries], args: Dict = {}) -> ARIMAResults:
+        return self.class_def(ts.data, order=self.model_args.get('order', (1, 1, 1))).fit(
+            **args)
 
-    def score(self, ts: TestTS, model):
-        predicted_values = model.predict(ts.start, ts.end)
-        return {
-            'MAE': find_mae(ts.data.values, predicted_values.values),
-            "MAPE": find_mape(ts.data.values, predicted_values.values),
-            'AIC': model.aic,
-            'AICC': model.aicc,
-            'BIC': model.bic,
-            'SSE': model.sse
-        }
+    def forecast(self, model: ARIMAResults, n_steps):
+        return model.forecast(n_steps)
+
+    def predict(self, model: ARIMAResults, start, end):
+        return model.predict(start, end)
 
     @staticmethod
     def get_tunable():
-        pass
+        # TODO: [WIP]
+        return []
 
 
 MODELS = {
     'holtwinter': HoltWinter,
+    'arima': ARIMA,
 
 }
