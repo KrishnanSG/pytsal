@@ -6,7 +6,7 @@ from pytsal.internal.utils.helpers import get_freq
 def csv_loader(path: str, index: str = 'X', target: str = 'Y', freq=None) -> pd.Series:
     df = pd.read_csv(path)
     data = df[target].values
-    _datetime_index = pd.to_datetime(df[index])
+    _datetime_index = pd.to_datetime(df[index], infer_datetime_format=True)
 
     # Auto detect frequency
     seconds = (_datetime_index[1] - _datetime_index[0]).total_seconds()
