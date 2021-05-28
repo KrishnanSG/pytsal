@@ -1,9 +1,9 @@
 from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 
 import pandas as pd
 
-from pytsal.internal.containers.models.forecasting import MODELS, Forecasting
+from pytsal.internal.containers.models.forecasting import *
 from pytsal.internal.entity import TimeSeries, TrainTS, TestTS
 from pytsal.internal.utils.helpers import get_logger, split_into_train_test
 from pytsal.visualization.eda import EDAVisualizer
@@ -61,7 +61,7 @@ def setup(
         viz = ValidationVisualizer(ts, train, test, fit_model)
         viz.summary_plot()
 
-    LOG.info(f'Experiment end @ {datetime.now()}')
+    LOG.info(f'Experiment ended @ {datetime.now()}')
 
     return model
 
