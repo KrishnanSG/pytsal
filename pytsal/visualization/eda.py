@@ -88,6 +88,8 @@ class EDAVisualizer(VisualizeContainer):
         plt.show()
 
     def test_stationarity(self, window=12, cutoff=0.01):
+        LOG.info("Performing stationarity test")
+        LOG.info('Test 1/2 ADF')
         from statsmodels.tsa.stattools import adfuller
 
         rolmean = self.ts.rolling(window).mean()
@@ -117,9 +119,25 @@ class EDAVisualizer(VisualizeContainer):
             text = 'p-value = %.4f. The series is likely stationary.' % pvalue
         else:
             text = 'p-value = %.4f. The series is likely non-stationary.' % pvalue
-        print(text)
-
         print(dfoutput)
+
+        LOG.info('\nTest 2/2 KPSS')
+        from statsmodels.tsa.api import kpss
+
+        statistic, p_value, n_lags, critical_values = kpss(self.ts, regression='ct', nlags='auto')
+
+        # Format Output
+        print(f'KPSS Statistic: {statistic}')
+        print(f'p-value: {p_value}')
+        print(f'num lags: {n_lags}')
+        print('Critial Values:')
+        for key, value in critical_values.items():
+            print(f'   {key} : {value}')
+
+        LOG.info('Tests completed')
+        print(f'\nADF: {text}')
+        print(f'KPSS: The series is {"not " if statistic > critical_values["5%"] else ""}'
+              f'deterministic trend stationary')
 
     def summary_plot(self):
         """
@@ -137,5 +155,5 @@ class EDAVisualizer(VisualizeContainer):
         self.acf_and_pacf_plot()
         LOG.info('Constructed acf and pacf plot')
         self.test_stationarity()
-        LOG.info('Performed stationary test plot')
+        LOG.info('Performed stationary tests')
         LOG.info(f'{self.__class__.__name__} completed')
