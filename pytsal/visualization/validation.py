@@ -15,6 +15,12 @@ def find_mae(expected, observed):
     return np.average(output_errors)
 
 
+def find_rmse(expected, observed):
+    import numpy as np
+    output_errors = np.average((observed - expected) ** 2)
+    return np.sqrt(output_errors)
+
+
 def find_mape(expected, observed):
     import numpy as np
     epsilon = np.finfo(np.float64).eps
@@ -64,6 +70,7 @@ class ValidationVisualizer(VisualizeContainer):
         metrics = {
             'MAE': find_mae(self.test.data.values, predicted_values.values),
             "MAPE": find_mape(self.test.data.values, predicted_values.values),
+            'RMSE': find_rmse(self.test.data.values, predicted_values.values),
             'AIC': self.model.aic,
             'BIC': self.model.bic,
             'AICC': self.model.aicc,
