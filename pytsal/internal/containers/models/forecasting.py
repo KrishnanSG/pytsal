@@ -3,7 +3,7 @@ from typing import Any, Dict, Union
 
 from pytsal.internal.containers.models.base_model import ModelContainer
 from pytsal.internal.entity import TrainTS, TestTS, TimeSeries
-from pytsal.visualization.validation import find_mape, find_mae
+from pytsal.visualization.validation import find_mape, find_mae, find_rmse
 
 
 class Forecasting(ModelContainer, ABC):
@@ -29,7 +29,8 @@ class Forecasting(ModelContainer, ABC):
         predicted_values = model.predict(ts.start, ts.end)
         return {
             'MAE': find_mae(ts.data.values, predicted_values.values),
-            "MAPE": find_mape(ts.data.values, predicted_values.values),
+            'MAPE': find_mape(ts.data.values, predicted_values.values),
+            'RMSE': find_rmse(ts.data.values, predicted_values.values),
             'AIC': model.aic,
             'AICC': model.aicc,
             'BIC': model.bic,
