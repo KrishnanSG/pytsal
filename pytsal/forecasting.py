@@ -20,7 +20,8 @@ def setup(
         validation: bool = True,
         find_best_model: bool = True,
         validation_metric_name: str = 'MAE',
-        plot_model_comparison: bool = True
+        plot_model_comparison: bool = True,
+        split_ratio: int = 0.8
 ):
     import warnings
     warnings.filterwarnings("ignore")
@@ -33,7 +34,7 @@ def setup(
 
     # Create train test set
     LOG.info('Creating train test data')
-    train, test = split_into_train_test(ts, split_ratio=0.8)
+    train, test = split_into_train_test(ts, split_ratio=split_ratio)
 
     if eda:
         LOG.info('Initializing Visualizer ...')
@@ -113,7 +114,7 @@ def tune_model(train: TrainTS, test: TestTS, model_class: Any, metric_name: str 
             legends.append(str(param))
 
     if plot_comparison:
-        plt.legend(legends)
+        plt.legend()
         plt.show()
 
     summary = pd.DataFrame({
