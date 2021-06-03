@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Union
 
-from statsmodels.tsa.arima.model import ARIMAResults
-from statsmodels.tsa.holtwinters import HoltWintersResults
-
 from pytsal.internal.containers.models.base_model import ModelContainer
 from pytsal.internal.entity import TrainTS, TestTS, TimeSeries
 from pytsal.visualization.validation import find_mape, find_mae
@@ -46,6 +43,7 @@ class Forecasting(ModelContainer, ABC):
 
 
 class HoltWinter(Forecasting):
+    from statsmodels.tsa.holtwinters import HoltWintersResults
 
     def __init__(self, model_args: Dict = None):
         from statsmodels.tsa.holtwinters import ExponentialSmoothing
@@ -112,8 +110,22 @@ class HoltWinter(Forecasting):
 
 
 class ARIMA(Forecasting):
+    """
+    (In Preview)
+
+    ARIMA Model
+    """
+    from statsmodels.tsa.arima.model import ARIMAResults
 
     def __init__(self, model_args: Dict = None):
+        import warnings
+        import pytsal
+        warnings.warn(
+            f'ARIMA is in preview as of version {pytsal.__version__}. '
+            f'In case of any bugs raise them at '
+            f'https://github.com/KrishnanSG/pytsal/issues/new?assignees=&labels=&template=bug_report.md&title=[BUG] '
+        )
+
         from statsmodels.tsa.arima.model import ARIMA
         super().__init__('arima', 'ARIMA', ARIMA, args=model_args)
 
