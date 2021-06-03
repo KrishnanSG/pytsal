@@ -8,6 +8,7 @@ class TimeSeries:
         self.freq = freq
         self.target = target
         self.phase = phase
+        self.size = len(self.data.values)
         self.start = self.data.index.values[0]
         self.end = self.data.index.values[-1]
 
