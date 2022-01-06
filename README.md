@@ -23,9 +23,9 @@ Pytsal is the abbreviation for **Py**thon **T**ime **S**eries **A**nalysis **L**
 
 ## Overview
 
-![Features](https://raw.githubusercontent.com/pycaret/pycaret/master/pycaret2-features.png)
+![Features](https://i2.wp.com/pycaret.org/wp-content/uploads/2020/07/pycaret2-features.png?fit=1033%2C613&ssl=1)
 
-*[Image source](https://raw.githubusercontent.com/pycaret/pycaret/master/pycaret2-features.png)*
+*[Image source](https://i2.wp.com/pycaret.org/wp-content/uploads/2020/07/pycaret2-features.png?fit=1033%2C613&ssl=1)*
 
 
 ## Features
